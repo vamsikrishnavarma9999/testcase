@@ -1,0 +1,200 @@
+
+Task 1 : 
+
+
+i created a file in AWS instance as show below 
+
+touch file3
+
+input :
+[root@ip-172-31-32-45 ~]# cat file file3
+cat: file: No such file or directory
+double double toil and trouble
+fire burn and cauldron bubble bubble
+tomorrow and tomorrow and tomorrow
+creeps in this this petty pace from day toto day
+to the last syllable of recorded time time
+
+[root@ip-172-31-32-45 ~]# date
+Fri Mar 27 05:24:42 UTC 2020
+[root@ip-172-31-32-45 ~]#
+
+
+as per request i user a command to remove the duplicate words as shown below .
+
+awk -v RS='[^-_[:alnum:]]+' '$1 == p{printf "%s", RT; next} {p=$1; ORS=RT} 1'  file3
+
+
+samle out put :
+
+[root@ip-172-31-32-45 ~]# awk -v RS='[^-_[:alnum:]]+' '$1 == p{printf "%s", RT; next} {p=$1; ORS=RT} 1'  file3
+double  toil and trouble
+fire burn and cauldron bubble
+tomorrow and tomorrow and tomorrow
+creeps in this  petty pace from day toto day
+to the last syllable of recorded time
+
+[root@ip-172-31-32-45 ~]# date
+Fri Mar 27 05:26:39 UTC 2020
+[root@ip-172-31-32-45 ~]#
+
+
+
+explanation : 
+
+awk is a tool for building the linux shell script for processing the text based data
+
+alnum : It matches any single character in that list.
+
+-v verbose 
+
+RS defines a line reads line by line by default
+
+ORS is an Output equivalent of RS. Each record in the output will be printed with this delimiter.
+
+$1 is the first commandline argument
+
+%s is a format specifier for printf command.
+
+
+ =======================================================================================================================================
+
+
+Task 2: 
+
+
+when i start creating the cluster service AWS not allowed to t3large instance to create since its an not free tier support.
+
+also i have no knowledged on this particular service , i have tried my best and given the below info to you
+
+explanation :
+
+downloaded file from google :  http://elasticsearch-7.6.1-linux-x86_64.tar.gz/
+
+extracted the file 
+
+installed the package under elasticsearch-7.6.1\bin
+
+now we have a one node cluster , for 2 node cluster we need to do the 
+
+/elasticsearch -Epath.data=data2 -Epath.logs=log2
+
+GET /_cat/health?v
+
+cat health API to verify that your three-node cluster is up running. The cat APIs return information about our cluster 
+
+now the cluster is running so we can give some input data as we like by Using the PUT to add to the document id  
+
+note : document id name should be unique 
+
+new document is available immediately from any node in the cluster
+
+retrieve it with a GET request that specifies its document ID:
+
+
+as shown below i have used json script to get the best result on cluster nodes 
+
+out put shows the status of the cluster node 
+
+ Total number of nodes selected by the request’s
+ nodes.successful
+    :Number of nodes that responded successfully to the request.
+ nodes.failed
+    :Number of nodes that rejected the request or failed to respond. If this value is not 0.
+  cluster_uuid
+    : Unique identifier for the cluster
+   timestamp
+     :Unix timestamp, in milliseconds, of the last time the cluster statistics were refreshed. 
+
+
+
+GET /_cluster/stats (result of below out put)
+
+{
+   "_nodes" : {
+      "total" : 1,
+      "successful" : 1,
+      "failed" : 0
+   },
+   "cluster_uuid": "YjAvIhsCQ9CbjWZb2qJw3Q",
+   "cluster_name": "elasticsearch",
+   "timestamp": 1459427693515,
+   "status": "green",
+   "shards": {
+         "total": 5,
+         "primaries": 5,
+         "replication": 0,
+         "index": {
+            "shards": {
+               "min": 5,
+               "max": 5,
+               "avg": 5
+            },
+            "primaries": {
+               "min": 5,
+               "max": 5,
+               "avg": 5
+            },
+            "replication": {
+               "min": 0,
+               "max": 0,
+               "avg": 0
+            }
+         }
+      },
+      "store": {
+         "size": "16.2kb",
+         "size_in_bytes": 16684
+      },
+       "segments": {
+         "count": 4,
+         "memory": "8.6kb",
+         "memory_in_bytes": 8898,
+         "terms_memory": "6.3kb",
+         "terms_memory_in_bytes": 6522,
+         "stored_fields_memory": "1.2kb",
+         "stored_fields_memory_in_bytes": 1248,
+         "term_vectors_memory": "0b",
+         "term_vectors_memory_in_bytes": 0,
+         "norms_memory": "384b",
+         "norms_memory_in_bytes": 384,
+         "points_memory" : "0b",
+         "points_memory_in_bytes" : 0,
+         "doc_values_memory": "744b",
+         "doc_values_memory_in_bytes": 744,
+         "index_writer_memory": "0b",
+         "index_writer_memory_in_bytes": 0,
+         "version_map_memory": "0b",
+         "version_map_memory_in_bytes": 0,
+         "fixed_bit_set": "0b",
+         "fixed_bit_set_memory_in_bytes": 0,
+         "max_unsafe_auto_id_timestamp" : -9223372036854775808,
+         "file_sizes": {}
+      }
+   },
+   "nodes": {
+      "count": {
+         "total": 1,
+         "data": 1,
+         "coordinating_only": 0,
+         "master": 1,
+         "ingest": 1,
+         "voting_only": 0
+      },
+      "versions": [
+         "7.6.1"
+      ],
+       "mem" : {
+            "total" : "16gb",
+            "total_in_bytes" : 17179869184,
+            "free" : "78.1mb",
+            "free_in_bytes" : 81960960,
+            "used" : "15.9gb",
+            "used_in_bytes" : 17097908224,
+            "free_percent" : 0,
+            "used_percent" : 100
+   
+  
+      ]
+   }
+}
